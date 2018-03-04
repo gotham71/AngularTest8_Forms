@@ -1,0 +1,87 @@
+<h4>Forms
+  <small>template</small>
+</h4>
+<hr>
+<form novalidate="" #formToSave="ngForm" (ngSubmit)="save(formToSave)" >
+
+  <div>
+
+    <div class="form-group row" [ngClass]="{'hasDanger': (name.errors?.minlength || name.errors?.required)&& name.touched}">
+      <label class="col-2 col-form-label">Name</label>
+      <div class="col-8">
+
+        <input class="form-control" type="text" name="name" ngModel [(ngModel)]="user.name" #name="ngModel" placeholder="Name" required minlength="5">
+        <div class="invalid-feedback" *ngIf="name.errors?.required">This field is required</div>
+        <div class="invalid-feedback" *ngIf="name.errors?.minlength">This field requires at least {{ name.errors.minlength.requiredLength }} chars</div>
+      </div>
+    </div>
+
+    <div class="form-group row" [ngClass]="{'hasDanger': (name.errors?.minlength || name.errors?.required)&& name.touched}">
+      <label class="col-2 col-form-label">Surname</label>
+      <div class="col-8">
+
+        <input class="form-control" type="text" name="surname" [(ngModel)]="user.surname" #surname="ngModel" placeholder="Surname" required>
+        <div class="invalid-feedback" *ngIf="surname.errors?.required">This field is required</div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row" [ngClass]="{'hasDanger': (name.errors?.minlength || name.errors?.required)&& name.touched}">
+    <label class="col-2 col-form-label">Email</label>
+    <div class="col-8">
+
+      <input class="form-control" type="email" name="email" [(ngModel)]="user.email" #email="ngModel" ngModel placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+      <div class="invalid-feedback" *ngIf="email.errors?.required">This field is required</div>
+      <div class="invalid-feedback" *ngIf="email.errors?.pattern">The format of the email is not valid</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Country</label>
+    <div class="col-8">
+      <select name="country" class="form-control" [(ngModel)]="user.country">
+        <option value="">Select a country..</option>
+        <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Sex</label>
+    <div class="col-8">
+      <label class="custom-control custom-radio" *ngFor="let sex of sexs">
+        <input id="radio1" name="sex" type="radio" class="custom-control-input" [value]="sex" [(ngModel)]="user.sex">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{ sex }} </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Conditions</label>
+    <div class="col-8">
+      <label class="custom-control custom-checkbox">
+        <input id="checkbox1" name="accept" type="checkbox" class="custom-control-input" [value]="accept" [(ngModel)]="user.accept">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Accept the conditions</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!formToSave.valid">
+        Save
+      </button>
+    </div>
+  </div>
+
+
+  <pre>
+      {{ user | json }}
+  </pre>
+
+</form>
