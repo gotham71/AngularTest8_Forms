@@ -1,47 +1,91 @@
 <h4>
-  Formularios
+  Forms
   <small>data</small>
 </h4>
 <hr>
-<form>
+<form [formGroup]="form2Work" (ngSubmit)="save()" novalidate="novalidate">
 
-  <div>
+  <div formGroupName="fullName">
 
-    <div class="form-group row">
-      <label class="col-2 col-form-label">Nombre</label>
+    <div class="form-group row" [ngClass]="{'has-danger': !form2Work.controls['fullName'].controls['name'].valid}">
+      <label class="col-2 col-form-label">Name</label>
       <div class="col-8">
 
-        <input class="form-control" type="text" placeholder="Nombre">
+        <input class="form-control" type="text" placeholder="Name" formControlName="name">
+
+        <div *ngIf="form2Work.get('fullName.name').errors?.required" class="form-control-feedback">Field name is required</div>
+        <div *ngIf="form2Work.get('fullName.name').errors?.minlength" class="form-control-feedback">Must have at least 3 chars</div>
+
       </div>
     </div>
 
     <div class="form-group row">
-      <label class="col-2 col-form-label">Apellido</label>
+      <label class="col-2 col-form-label">Surname</label>
       <div class="col-8">
 
-        <input class="form-control" type="text" placeholder="Apellido">
+        <input class="form-control" type="text" placeholder="Surname" formControlName="surname">
       </div>
     </div>
 
   </div>
 
   <div class="form-group row">
-    <label class="col-2 col-form-label">Correo</label>
-    <div class="col-md-8">
+    <label class="col-2 col-form-label">Email</label>
+    <div class="col-8">
 
-      <input class="form-control" type="email" placeholder="Correo electrÃ³nico">
+      <input class="form-control" type="email" placeholder="Email" formControlName="email">
     </div>
   </div>
 
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Username</label>
+    <div class="col-8">
+
+      <input class="form-control" type="text" placeholder="Username" formControlName="username">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Password</label>
+    <div class="col-8">
+
+      <input class="form-control" type="password" placeholder="Password" formControlName="password1">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Repeat password</label>
+    <div class="col-8">
+
+      <input class="form-control" type="password" placeholder="Repeat password" formControlName="password2">
+    </div>
+  </div>
+
+<div class="form-group row">
+  <label class="col-2 col-form-label">Freetime</label>
+  <div class="col-8" formArrayName="freetimes">
+
+    <input *ngFor="let freetime of form2Work.controls['freetimes'].controls; let i = index" type="text" class="form-control" [formControlName]=i>
+
+  </div>
+
+  <button class="btn btn-primary" (click)="addFreetime()">New freetime</button>
+
+</div>
 
 
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
     <div class="input-group col-md-8">
       <button type="submit" class="btn btn-outline-primary">
-        Guardar
+        Save
       </button>
     </div>
   </div>
 
 </form>
+
+
+{{ form2Work.valid }}
+<br/>
+{{ form2Work.status }}
